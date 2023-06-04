@@ -1,22 +1,16 @@
-import {useState,useEffect} from "react";
+import useFetchData from "../hooks/useFetchDate";
 
 export const User = () => {
-  const [users, setUsers] = useState([]);
-  useEffect(() => {
-    const fetchUser = async () => {
-      const response = await fetch(
-        'https://jsonplaceholder.typicode.com/users'
-      );
-      const users = await response.json();
-      setUsers(users);
-    };
-    fetchUser();
-  }, []);
+
+  // 共通化した部分をコンポーネント化してimportして使い回す。
+  const { data } =
+  useFetchData("https://jsonplaceholder.typicode.com/users")
+
   return (
     <div>
       <h1>ユーザ一覧</h1>
       <ul>
-        {users.map((user) => (
+        {data.map((user) => (
           <li key={user.id}>{user.name}</li>
         ))}
       </ul>
